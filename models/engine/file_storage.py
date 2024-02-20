@@ -9,12 +9,13 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """Returns the list of objects of one type of class"""
+        """Returns a list of objects of one type of class.
+        """
         if cls is None:
             return FileStorage.__objects
         return {
             key: value for key, value in self.__objects.items()
-                if type(value) is cls
+            if type(value) is cls
         }
 
     def new(self, obj):
@@ -54,11 +55,17 @@ class FileStorage:
         except FileNotFoundError:
             pass
 
-        def delete(self, obj=None):
-            """delete obj from --objects
-            If obj is equal to None, the method should not do anything"""
+    def delete(self, obj=None):
+        """Delete obj from __objects if it's inside
+        """
+        if obj:
+            key = "{}.{}".format(type(obj).__name__, obj.id)
 
-            if obj in self.__objects.values():
-                key = "{}.{}".format(type(obj).__name__, obj.id)
-                del(self.__objects[key])
-            return
+            if self.__objects[key]:
+                del self.__objects[key]
+                self.save()
+
+    def close(self):
+        """Deserialize the JSON file to objects
+        """
+        self.reload()
