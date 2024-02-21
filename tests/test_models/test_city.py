@@ -22,3 +22,14 @@ class test_City(test_basemodel):
         """ """
         new = self.value()
         self.assertEqual(type(new.name), str)
+
+    def test_city_creation(self):
+        """
+        Test instantiation of City and attributes assignment
+        """
+        # Create a City instance
+        city = City()
+
+        # Assert that attributes are assigned correctly
+        self.assertIsInstance(city.state_id, str)
+        self.assertIsInstance(city.name, str)
